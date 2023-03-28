@@ -1,4 +1,4 @@
-
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Pizzas.API.Models;
 using Pizzas.Api.Utils;
@@ -10,23 +10,28 @@ namespace Pizzas.API.Controllers;
 
 //https://www.omdbapi.com/?i={}&apikey=8005dd4
 
+// Get By Id http://localhost:5052/api/OMDB/movie/tt3530896 (PostMan)
+
 public class OMDBController : ControllerBase
 {
-   [HttpGet("movie/{imdbTitle)")]
+    [HttpGet("movie/{ImdbTitle}")]
 
-    public IActionResult GetByImdbTitle(string ImdbTitle)
+    public async Task<IActionResult> GetByImdbTitle(string ImdbTitle)
     {
-        string apiResponse = HTTPHelper.ObtenerPorTitulo(ImdbTitle);
+        string apiResponse = await HTTPHelper.ObtenerPorId(ImdbTitle);
 
         return Ok(apiResponse);
     }
 
 
-     [HttpGet("search")]
+/*
+     [HttpGet("movieTitle/{titulo}")]
 
-     public IActionResult GetByTerm([FromQuery] string term)
+     public IActionResult ObtenerPorTitulo([FromQuery] string titulo)
      {
-        return Ok("El id enviado es:" + term);
+      string apiResponse = HTTPHelper.ObtenerPorId("https://www.omdbapi.com/?apikey=8005dd4&t=" + titulo);
+        return Ok(apiResponse);
+        
      }
 
     /* string apiResponse = await HTTPHelper.GetContentAsync("https://omdbp.api.com/s=toy", null);
